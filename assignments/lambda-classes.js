@@ -24,6 +24,11 @@ class Instructor extends Person {
     grade(student, subject) {
         return `${this.name} receives a perfect score on ${subject}`
     }
+    grade(studentGrade) {
+        const min = 0;
+        const max = 100;
+        return studentGrade - Math.floor(Math.random() * 100);
+    }
 }
 
 class Student extends Person {
@@ -32,9 +37,10 @@ class Student extends Person {
         this.previousBackground = thirdAttr.previousBackground;
         this.className = thirdAttr.className;
         this.favSubjects = thirdAttr.favSubjects;
+        this.grade = thirdAttr.grade; 
     }
     listsSubjects() {
-        return `Favorite Subjects: ${this.favSubjects}.`
+        return`${this.name}'s favorite subjects are ${this.favSubjects.join(', ')}.`
     }
     PMAssignmet(subject) {
        return `${this.name} has submitted a PR for ${subject}`; 
@@ -42,6 +48,13 @@ class Student extends Person {
     sprintChallenge(subject) {
        return `${this.name} has begun sprint challenge on ${subject}`;
     }
+    graduate() {
+        if(this.grade >= Math.floor(70/100 * 100)) {
+            return `Congrats ${this.name}, you got a score of ${this.grade}!`;
+        } else {
+            return `Next time ${this.name}, you got a score of ${this.grade}...`;
+        }
+    } 
 }
 
 class ProjectManager extends Instructor {
@@ -53,25 +66,40 @@ class ProjectManager extends Instructor {
     standUp(channel) {
         return `${this.name} announces to ${channel}, @channel standy times!​​​​​`
     }
-    debugsCode(student,subject) {
+    debugsCode(student, subject) {
         return `${this.name} debugs ${student}'s code on ${subject}`;
     }
 }
 
-const testStudent = new Student({
-    name: 'Shane',
-    age: 25,
-    location: "San Jose",
-    favSubjects: 'javascript'
-});
-console.log(testStudent.speak());
+// const testStudent = new Student({
+//     name: 'Shane',
+//     age: 25,
+//     location: "San Jose",
+//     favSubjects: 'javascript'
+// });
+// console.log(testStudent.speak());
 
 const testProjectManager = new ProjectManager({
     name: 'Shane',
-    age: 25,
-    location: "San Jose",
-    favSubjects: 'javascript',
+    age: 18,
     grandClassName: 'web20',
     catchPhrase: 'gottcha',
 });
 console.log(testProjectManager.debugsCode('bob','html'));
+
+const testStudent = new Student({
+    name: 'Shane',
+    age: 25, 
+    location: 'San Jose',
+    className: 'web20',
+    favSubjects: [ 'javascript', 'html', 'css'],
+    grade: 20,
+})
+
+console.log(testStudent.listsSubjects())
+console.log(testStudent.graduate());
+
+const testGrade = testStudent.grade;
+
+console.log(testProjectManager.grade(testGrade))
+
